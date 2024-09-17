@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function AuthForm({ isSignUp = false, onSubmit }) {
+export default function AuthForm({ isSignUp = false, onSubmit, signUpUrl }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -55,7 +55,7 @@ export default function AuthForm({ isSignUp = false, onSubmit }) {
       ) : (
         <p className="text-sm text-gray-600 mt-4">
           Don’t have an account?{' '}
-          <a href="/admin/sign-up" className="text-blue-500 hover:underline">
+          <a href={signUpUrl} className="text-blue-500 hover:underline">
             Sign up here
           </a>
         </p>

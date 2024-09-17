@@ -1,7 +1,7 @@
 import React from 'react'
+import { supabase } from '../../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import AuthForm from '../../components/AuthForm'
-import { supabase } from '../../lib/supabase'
 
 export default function SignUpAdmin() {
   const navigate = useNavigate()
@@ -35,7 +35,7 @@ export default function SignUpAdmin() {
 
   return (
     <div>
-      <AuthForm isSignUp={true} onSubmit={handleAdminSignUp} />
+      <AuthForm isSignUp={true} onSubmit={handleAdminSignUp} signUpUrl={'/admin/sign-up'} />
     </div>
   )
 }

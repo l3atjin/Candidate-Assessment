@@ -1,5 +1,4 @@
 import React from 'react'
-import SignInForm from '../../components/AuthForm'
 import { supabase } from '../../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import AuthForm from '../../components/AuthForm'
@@ -26,7 +25,7 @@ export default function SignInAdmin() {
 
   return (
     <div>
-      <AuthForm onSubmit={handleAdminSignIn}/>
+      <AuthForm onSubmit={handleAdminSignIn} signUpUrl={'/admin/sign-up'}/>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchQuestionsBySetId, addQuestionToSet } from '../lib/supabase';
+import { fetchQuestionsBySetId, addQuestionToSet, fetchCandidates, assignQuestionSet } from '../lib/supabase'; // Add fetchCandidates and assignQuestionSet
 import Question from './Question';
 
 export default function QuestionSets({ id, name }) {
@@ -7,8 +7,9 @@ export default function QuestionSets({ id, name }) {
   const [newQuestion, setNewQuestion] = useState("");
   const [difficulty, setDifficulty] = useState(1);
   const [correctAnswer, setCorrectAnswer] = useState(true);
-
   const [loading, setLoading] = useState(true);
+  const [candidates, setCandidates] = useState([]); // Store candidate list
+  const [selectedCandidate, setSelectedCandidate] = useState(''); // Store selected candidate's email
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -17,7 +18,13 @@ export default function QuestionSets({ id, name }) {
       setLoading(false);
     };
 
+    const fetchCandidateList = async () => {
+      const data = await fetchCandidates(); // Fetch candidates from the users table
+      setCandidates(data);
+    };
+
     fetchQuestions();
+    fetchCandidateList();
   }, [id]);
 
   const handleAddQuestion = async () => {
@@ -25,7 +32,7 @@ export default function QuestionSets({ id, name }) {
       await addQuestionToSet({
         question_text: newQuestion,
         difficulty: difficulty,
-        correct_answer: correctAnswer, // Save the correct answer
+        correct_answer: correctAnswer,
         question_set: id, // Associate with the current set
       });
       setNewQuestion("");
@@ -37,8 +44,17 @@ export default function QuestionSets({ id, name }) {
       alert("This question set already has 20 questions.");
     }
   };
+
   const handleAssignment = async () => {
-    
+    if (selectedCandidate) {
+      await assignQuestionSet({
+        assignee_id: selectedCandidate, // User ID of the selected candidate
+        question_set: id, // Assign the current question set
+      });
+      alert(`Question set successfully assigned!`);
+    } else {
+      alert("Please select a candidate to assign the question set.");
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -55,6 +71,7 @@ export default function QuestionSets({ id, name }) {
         />
       )) : <p className='text-red-500'>{"No questions found. Please add some."}</p> }
 
+      {/* Form to add a new question */}
       {questions.length < 20 && (
         <div className='mt-4'>
           <input
@@ -97,7 +114,26 @@ export default function QuestionSets({ id, name }) {
           <button onClick={handleAddQuestion} className="ml-2 p-2 bg-blue-500 text-white">Add Question</button>
         </div>
       )}
-      {questions.length === 20 && <button onClick={handleAssignment} className="ml-2 p-2 bg-blue-500 text-white">Assign Question Set</button>}
+
+      {questions.length === 20 && (
+        <div className='mt-4'>
+          <h2 className='text-xl font-bold'>Assign Question Set</h2>
+          <select
+            value={selectedCandidate}
+            onChange={(e) => setSelectedCandidate(e.target.value)}
+            className="border p-2">
+            <option value="">Select Candidate</option>
+            {candidates.map((candidate) => (
+              <option key={candidate.id} value={candidate.id}>
+                {candidate.email} 
+              </option>
+            ))}
+          </select>
+          <button onClick={handleAssignment} className="ml-2 p-2 bg-green-500 text-white">
+            Assign Question Set
+          </button>
+        </div>
+      )}
     </div>
   );
 }

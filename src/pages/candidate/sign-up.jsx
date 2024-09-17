@@ -35,7 +35,7 @@ export default function SignUpCandidate() {
   }
   return (
     <div>
-      <AuthForm isSignUp={true} onSubmit={handleCandidateSignUp} />
+      <AuthForm isSignUp={true} onSubmit={handleCandidateSignUp} signUpUrl={'/candidate/sign-up'} />
     </div>
   )
 }

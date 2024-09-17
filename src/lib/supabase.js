@@ -66,3 +66,23 @@ export const addQuestionToSet = async (question) => {
   }
   return data;
 };
+
+export const fetchCandidates = async () => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('id, email')
+    .eq('role', 'candidate');
+
+  if (error) throw error;
+  return data;
+};
+
+export const assignQuestionSet = async ({ assignee_id, question_set }) => {
+  const { data, error } = await supabase
+    .from('assignments')
+    .insert([{ assignee_id, question_set_id: question_set }]);
+
+  if (error) throw error;
+  return data;
+};
+
