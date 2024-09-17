@@ -18,6 +18,17 @@ export default function SignUpAdmin() {
       // Display error message to the user (optional)
     } else {
       // Redirect to admin dashboard after successful sign-up
+      const { error } = await supabase
+        .from('users')
+        .update({ role: 'admin' })
+        .eq('id', data.session.user.id)
+        .select();
+      
+      console.log("user id is", data.session.user.id)
+      if (error) {
+        console.error("Error updating user role: ", error.message)
+        alert(error.message)
+      }
       navigate('/admin/dashboard')
     }
   }

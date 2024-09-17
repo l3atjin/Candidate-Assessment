@@ -2,6 +2,7 @@ import React from 'react'
 import SignInForm from '../../components/AuthForm'
 import { supabase } from '../../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+import AuthForm from '../../components/AuthForm'
 
 export default function SignInAdmin() {
   const navigate = useNavigate()
@@ -18,13 +19,14 @@ export default function SignInAdmin() {
       // Display error message to the user (optional)
     } else {
       // Redirect to admin dashboard after successful sign-in
+      
       navigate('/admin/dashboard')
     }
   }
 
   return (
     <div>
-      <SignInForm onSubmit={handleAdminSignIn}/>
+      <AuthForm onSubmit={handleAdminSignIn}/>
     </div>
   )
 }

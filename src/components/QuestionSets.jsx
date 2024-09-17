@@ -37,12 +37,15 @@ export default function QuestionSets({ id, name }) {
       alert("This question set already has 20 questions.");
     }
   };
+  const handleAssignment = async () => {
+    
+  };
 
   if (loading) return <p>Loading...</p>;
 
   return (
     <div>
-      <h1>{name}</h1>
+      <h1 className='text-2xl font-bold'>{name}</h1>
       {questions.length > 0 ? questions.map((question) => (
         <Question
           key={question.id}
@@ -52,7 +55,6 @@ export default function QuestionSets({ id, name }) {
         />
       )) : <p className='text-red-500'>{"No questions found. Please add some."}</p> }
 
-      {/* Form to add a new question */}
       {questions.length < 20 && (
         <div className='mt-4'>
           <input
@@ -64,11 +66,11 @@ export default function QuestionSets({ id, name }) {
           />
           <input
             type="number"
-            placeholder="Difficulty level (1-10)"
+            placeholder="Difficulty level (1-20)"
             value={difficulty}
             onChange={(e) => setDifficulty(parseInt(e.target.value))}
             min="1"
-            max="10"
+            max="20"
             className="border p-2 ml-2"
           />
           <div className="mt-2">
@@ -95,6 +97,7 @@ export default function QuestionSets({ id, name }) {
           <button onClick={handleAddQuestion} className="ml-2 p-2 bg-blue-500 text-white">Add Question</button>
         </div>
       )}
+      {questions.length === 20 && <button onClick={handleAssignment} className="ml-2 p-2 bg-blue-500 text-white">Assign Question Set</button>}
     </div>
   );
 }

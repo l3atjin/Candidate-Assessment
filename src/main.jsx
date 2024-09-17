@@ -8,8 +8,7 @@ import SignInCandidate from './pages/candidate/sign-in.jsx';
 import SignUpAdmin from './pages/admin/sign-up.jsx';
 import SignUpCandidate from './pages/candidate/sign-up.jsx';
 import Dashboard from './pages/admin/dashboard.jsx';
-import Layout from './components/layout.jsx';
-import Header from './components/header.jsx';
+import Assignments from './pages/candidate/assignments.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "admin/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "candidate/assignments",
+    element: <Assignments />,
   },
 ]);
 
