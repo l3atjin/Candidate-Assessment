@@ -86,3 +86,74 @@ export const assignQuestionSet = async ({ assignee_id, question_set }) => {
   return data;
 };
 
+export const fetchAssignments = async () => {
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: assignments, error } = await supabase
+    .from('assignments')
+    .select('*')
+    .eq('assignee_id', user.id)
+    .single();
+
+  if (error) {
+    console.log(error);
+  }
+  return assignments;
+}
+
+export const saveResponse = async ({ question_id, answer, is_correct }) => {
+  const { data: { user } } = await supabase.auth.getUser()
+  const candidate_id = user.id;
+  const { data, error } = await supabase
+    .from('responses')
+    .insert([
+      {
+        candidate_id,
+        question_id,
+        answer,
+        is_correct,
+      }
+    ]);
+
+  if (error) {
+    console.error('Error saving response:', error);
+  }
+
+  return data;
+};
+
+export const fetchResults = async () => {
+  const { data: responses, error } = await supabase
+    .from('responses')
+    .select(`
+      id,
+      answer,
+      is_correct,
+      questions (question_text, difficulty, correct_answer),
+      users (email)
+    `);
+
+  if (error) {
+    console.error('Error fetching results:', error);
+  }
+
+  console.log('Results:', responses);
+
+  return responses;
+};
+
+export const fetchUserRole = async () => {
+  const { data: { user } } = await supabase.auth.getUser()
+  let { data: users, error } = await supabase
+  .from('users')
+  .select('role')
+  .eq('id', user.id)
+  .single();
+
+  if (error) {
+    console.error('Error fetching role:', error);
+  }
+  return users.role;
+
+}
+
+
