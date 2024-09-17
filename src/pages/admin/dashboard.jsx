@@ -43,7 +43,7 @@ export default function Dashboard() {
   }, [navigate]);
 
   if (loading) {
-    return <div>Loading...</div>; // Optionally, show a loading state while checking
+    return <div>Loading...</div>;
   }
 
   return (

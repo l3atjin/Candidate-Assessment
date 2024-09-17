@@ -10,11 +10,9 @@ export default function AssignmentQuestions({ questionSetId, candidateId }) {
   useEffect(() => {
     const fetchQuestions = async () => {
       const data = await fetchQuestionsBySetId(questionSetId);
-      // Sort questions by difficulty
       data.sort((a, b) => a.difficulty - b.difficulty);
       setQuestions(data);
       
-      // Start from the middle difficulty
       const middleIndex = Math.floor(data.length / 2);
       setCurrentQuestionIndex(middleIndex);
     };
@@ -29,7 +27,6 @@ export default function AssignmentQuestions({ questionSetId, candidateId }) {
     const newAnsweredQuestions = new Set(answeredQuestions);
     newAnsweredQuestions.add(currentQuestionIndex);
 
-    // Determine if the answer is correct
     const isCorrect = answer === correct;
     setFeedback(isCorrect ? 'Correct!' : 'Incorrect. Try an easier question.');
 

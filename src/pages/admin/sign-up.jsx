@@ -15,9 +15,7 @@ export default function SignUpAdmin() {
     if (error) {
       console.error("Error signing up: ", error.message)
       alert(error.message)
-      // Display error message to the user (optional)
     } else {
-      // Redirect to admin dashboard after successful sign-up
       const { error } = await supabase
         .from('users')
         .update({ role: 'admin' })

@@ -15,10 +15,7 @@ export default function SignInAdmin() {
     if (error) {
       console.error("Error signing in: ", error.message)
       alert(error.message + ". Please sign up first.")
-      // Display error message to the user (optional)
     } else {
-      // Redirect to admin dashboard after successful sign-in
-      
       navigate('/admin/dashboard')
     }
   }
